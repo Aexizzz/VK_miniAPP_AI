@@ -1,0 +1,51 @@
+/* NavBar-Default */
+.NavBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px;
+    padding-top: calc(var(--safe-area-inset-top, 0px) + 32px);
+    background: linear-gradient(to bottom, var(--Background-Secondary) 15%, transparent 100%);
+    z-index: 10;
+}
+
+.NavBar-Content {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.NavBar-Leading {
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+}
+
+.NavBar-Leading-BackButton {
+    height: 36px;
+    padding: 0 12px 0 4px;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    color: var(--Colors-Blue);
+    border-radius: 18px;
+}
+
+.NavBar-Leading-BackButton-Icon {
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.NavBar-Title {
+    min-width: fit-content;
+    color: var(--Labels-Primary);
+}
+
+.NavBar-Margin {
+    width: 100%;
+}
+
+/* NavBar-Big Title */

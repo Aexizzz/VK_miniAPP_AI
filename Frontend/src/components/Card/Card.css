@@ -1,0 +1,197 @@
+.Card {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.Card-Title {
+    color: var(--Labels-Primary);
+}
+
+.Card-Subtitle {
+    color: var(--Labels-Secondary);
+    mix-blend-mode: var(--Labels-Secondary-Blend);
+}
+
+.Card-Icon {
+    flex-shrink: 0;
+}
+
+.Card-Icon svg {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.Cards-Group {
+    gap: 16px;
+}
+
+.Cards-Row {
+    flex-direction: row;
+    gap: 12px;
+}
+
+.Card-ListItem .Cover {
+    width: 100%;
+}
+
+.Card-Link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* TYPE */
+/* Default */
+.Card-Default .Card-ListItem-Content {
+    display: none;
+}
+
+.Card-Default, .Card-Small {
+    border-radius: 24px;
+}
+
+/* ListItem */
+.Card-ListItem .Card-Default-Content{
+    display: none;
+}
+
+/* SIZE */
+/* Small */
+.Card-Small .Card-Default-Content {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+}
+
+/* Default */
+.Card-Small .Card-Default-Content .Material-Regular {
+    border-radius: 24px;
+}
+
+.Card-Small .Card-ListItem-Content {
+    padding: 4px;
+}
+
+.Card-Small .Card-Buttons {
+    display: none;
+}
+
+.Card-Small .Card-Icon {
+    color: var(--Colors-Blue);
+    width: 32px;
+    height: 32px;
+}
+
+.Card-Small .HorList  {
+    display: none;
+}
+
+/* ListItem */
+.Card-ListItem {
+    border-radius: 12px;
+}
+
+.Card-ListItem .Cover-Info-Title {
+    text-align: start !important;
+}
+
+.Card-ListItem .Cover-Circle .Cover-Cover {
+    border-radius: 50% ;
+}
+
+/* Medium */
+/* Default */
+.Card-Medium .Card-Default-Content .Material-Regular {
+    border-radius: 24px;
+}
+
+.Card-Medium .Card-Default-Content {
+    gap: 3px;
+    padding: 12px;
+}
+
+.Card-Medium .Card-ListItem-Content {
+    padding: 12px;
+}
+
+.Card-Medium .Card-Buttons {
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 12px;
+}
+
+.Card-Medium .Card-Buttons button {
+    width: 100%;
+}
+
+.Card-Medium .Card-Icon {
+    display: none;
+}
+
+.Card-Medium .HorList  {
+    display: none;
+}
+
+/* ListItem */
+.Card-Medium .Card-ListItem-Content .Material-Regular {
+    border-radius: 20px;
+}
+
+/* Large */
+/* Default */
+.Card-Large {
+    border-radius: 22px;
+}
+
+.Card-Large .Card-Default-Content {
+    gap: 3px;
+    padding: 16px;
+}
+
+.Card-Large .Card-ListItem-Content {
+    padding: 12px;
+}
+
+.Card-Large .Card-Buttons {
+    flex-direction: row;
+    gap: 8px;
+    padding-top: 12px;
+}
+
+.Card-Large .Card-Info {
+    padding-right: 68px;
+}
+
+.Card-Large .Card-Icon {
+    position: absolute;
+    transform: rotate(-16deg);
+    width: 130px;
+    height: 130px;
+    color: var(--Labels-Tertiary);
+    mix-blend-mode: var(--Labels-Tertiary-Blend);
+    top: -16px;
+    right: -43px;
+}
+
+.Card-Large .HorList {
+    margin-top: 12px;
+}
+
+.Card-Large .HorList-Scroll {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+    padding-left: 16px;
+}
+
+.Card-Large .HorList-Scroll::before,
+.Card-Large .HorList-Scroll::after {
+    display: none;
+}
+
+.Card-Large .HorList-Items {
+    padding-right: 16px;
+}

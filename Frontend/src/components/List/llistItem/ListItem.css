@@ -1,0 +1,167 @@
+.HorList {
+    position: relative;
+    overflow-x: visible;
+}
+
+.HorList-Scroll {
+    scroll-behavior: smooth;
+    overflow-x: scroll;
+    width: calc(((100vw - 680px) / 2 + 696px));
+    padding-left: 48px;
+    margin-left: -48px;
+}
+
+.HorList-Scroll::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(to right, var(--Background-Secondary) 20%, transparent 100%);
+    width: 48px;
+    margin-left: -48px;
+}
+
+.HorList-Scroll::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to left, var(--Background-Secondary) 20%, transparent 100%);
+    width: 48px;
+    margin-right: calc((100vw - 680px) / 2 * -1);
+}
+
+.HorList-Items {
+    flex-direction: row;
+    gap: 16px;
+    overflow: visible;
+    width:max-content;
+    padding-right: calc((100vw - 680px) / 2);
+}
+
+@media (max-width: 680px) {
+    .HorList-Scroll {
+        width: 100vw;
+        margin-left: -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .HorList-Scroll::before {
+        margin-left: -16px;
+        width: 16px;
+    }
+
+    .HorList-Scroll::after {
+        right: 0;
+        width: 16px;
+        margin-right: -16px;
+    }
+}
+
+.Cover {
+    display: flex;
+    gap: 6px;
+    width: fit-content;
+    flex-shrink: 0;
+}
+
+.Cover-Cover {
+    object-fit: cover;
+}
+
+.Cover-Info {
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+}
+
+.Cover-Info-Avatar {
+    aspect-ratio: 1 / 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.Cover-Info-Title {
+    width: 100%;
+}
+
+.Cover-Info-Title-Title {
+    color: var(--Labels-Primary);
+}
+
+.Cover-Info-Title-Subtitle {
+    color: var(--Labels-Secondary);
+    mix-blend-mode: var(--Labels-Secondary-Blend);
+}
+
+/* TYPE */
+/* Rounded */
+.Cover-Rounded .Cover-Cover {
+    aspect-ratio: 1/ 1;
+    border-radius: 12px;
+}
+
+.Cover-Rounded .Cover-Info-Avatar {
+    display: none;
+}
+
+/* Circle */
+.Cover-Circle .Cover-Cover {
+    aspect-ratio: 1/ 1;
+    border-radius: 50%;
+}
+
+.Cover-Circle .Cover-Info-Avatar {
+    display: none;
+}
+
+.Cover-Circle .Cover-Info-Title {
+    width: 100%;
+    text-align: center;
+}
+
+/* Video */
+.Cover-Video .Cover-Cover {
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+}
+
+.Cover-Video .Cover-Info-Avatar {
+    display: flex;
+}
+
+/* SIZE */
+/* Small */
+.Cover-Small {
+    flex-direction: row;
+    align-items: center;
+}
+
+.Cover-Small .Cover-Cover {
+    height: 42px;
+    border-radius: 6px;
+}
+
+.Cover-Small .Cover-Info-Avatar {
+    display: none;
+}
+
+/* Medium */
+.Cover-Medium {
+    flex-direction: column;
+}
+
+.Cover-Medium .Cover-Cover {
+    height: 125px;
+}
+
+/* Large */
+.Cover-Large {
+    flex-direction: column;
+}
+
+.Cover-Large .Cover-Cover {
+    height: 165px;
+}

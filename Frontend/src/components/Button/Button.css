@@ -1,0 +1,49 @@
+/* Синяя основная кнопка (Primary) */
+.Btn-Type-Primary {
+  background-color: #0077FF !important; /* Синий цвет */
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0, 119, 255, 0.3) !important;
+}
+
+.Btn-Type-Primary:hover {
+  background-color: #0066e6 !important;
+  transform: translateY(-1px);
+}
+
+/* Вторичная кнопка (Secondary) - серая */
+.Btn-Type-Secondary {
+  background-color: #f0f1f2 !important;
+  color: #2c2d2e !important;
+  border: 1px solid #dadde1 !important;
+}
+
+.Btn-Type-Secondary:hover {
+  background-color: #e4e6eb !important;
+}
+
+/* Размеры кнопок */
+.Btn-Size-Small {
+  padding: 6px 16px !important;
+  font-size: 14px !important;
+  border-radius: 8px !important;
+}
+
+.Btn-Size-Medium {
+  padding: 8px 20px !important;
+  font-size: 15px !important;
+  border-radius: 8px !important;
+}
+
+.Btn-Size-Large {
+  padding: 10px 24px !important;
+  font-size: 16px !important;
+  border-radius: 10px !important;
+}
+
+/* Стили для иконок внутри кнопок */
+.Btn-Icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,27 @@
+.StatisticCard {
+    background: var(--Background-Primary);
+    border-radius: 20px;
+    width: calc(100% - 12px / 2);
+    aspect-ratio: 1 / 1;
+    max-height: 270px;
+    overflow: hidden;
+}
+
+.StatisticCard-Content {
+    width: 100%;
+    height: 100%;
+    margin-bottom: -32px;
+}
+
+.StatisticCard-Info {
+    padding: 12px;
+    background: linear-gradient(to top, var(--Background-Primary) 30%, transparent 100%);
+}
+
+.StatisticCard-Info-Title {
+    color: var(--Labels-Primary);
+}
+
+.StatisticCard-Info-Subtitle {
+    color: var(--Labels-Secondary);
+}

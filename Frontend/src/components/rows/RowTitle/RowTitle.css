@@ -1,0 +1,37 @@
+.RowTitle {
+    padding-bottom: 12px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.RowTitle-Cover {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.RowTitle-Title {
+    color: var(--Labels-Secondary);
+    mix-blend-mode: var(--Labels-Secondary-Blend);
+}
+
+.RowTitle-Subtitle {
+    color: var(--Labels-Tertiary);
+    mix-blend-mode: var(--Labels-Tertiary-Blend);
+}
+
+/* TYPE */
+/* Default */
+.RowTitle-Default .RowTitle-Cover {
+    display: none;
+}
+
+.RowTitle-Default .RowTitle-Subtitle {
+    display: none;
+}
+
+/* Plus */
+.RowTitle-Plus .RowTitle-Title {
+    text-transform: uppercase;
+}

@@ -1,0 +1,41 @@
+.HorList-Btn-Prev {
+    position: absolute;
+    left: 0;
+    z-index: 9;
+    top: calc(50% - 24px);
+    margin-left: 4px;
+}
+
+.HorList-Btn-Next {
+    position: absolute;
+    right: 0;
+    z-index: 9;
+    top: calc(50% - 24px);
+    margin-right: 4px;
+}
+
+.HorList-Btn {
+    background-color: var(--Background-Primary);
+    width: fit-content;
+    padding: 12px;
+    border-radius: 50%;
+    color: var(--Colors-Blue);
+    transition: transform 0.4s cubic-bezier(0.2, 0.01, 0, 1);
+    opacity: 0.4;
+}
+
+.HorList-Btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.HorList-Btn:active {
+    transform: scale(0.9);
+}
+
+/* Для Touch устройств*/
+@media (hover: none) and (pointer: coarse) {
+    .HorList-Controls {
+        display: none;
+    }
+}

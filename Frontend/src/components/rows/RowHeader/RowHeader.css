@@ -1,0 +1,33 @@
+.Row-Header {
+    background-color: var(--Background-Primary);
+    width: 100%;
+    border-radius: 21px;
+    gap: 16px;
+    padding: 12px;
+}
+
+.Row-Header-Icon {
+    width: 52px;
+    height: 52px;
+    background-color: var(--Fills_Accent-Primary);
+    color: var(--Colors-Blue);
+    padding: 10px;
+    border-radius: 9px;
+}
+
+.Row-Header-Icon svg {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.Row-Header-Info {
+    gap: 2px;
+}
+
+.Row-Header-Info-Title {
+    color: var(--Labels-Primary);
+}
+
+.Row-Header-Info-Subtitle {
+    color: var(--Labels-Secondary);
+}

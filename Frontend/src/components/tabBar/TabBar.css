@@ -1,0 +1,91 @@
+.TabBar {
+  width: 100vw;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  gap: 24px;
+  padding: 16px 34px 34px 34px;
+  z-index: 10;
+  background: linear-gradient(to top, var(--Background-Secondary) 0%, transparent 100%);
+}
+
+.TabBar-Content {
+  width: fit-content;
+  height: 65px;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.TabBar-Content-Items {
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  width: fit-content;
+  height: 100%;
+  padding: 4px;
+}
+
+/* Для Touch устройств*/
+@media (hover: none) and (pointer: coarse) {
+  .TabBar-Content-Items {
+    max-width: 334px;
+    overflow-x: auto;
+  }
+}
+
+.TabBar-Tab {
+  width: 100%;
+  max-width: 80px;
+  min-width: 75px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: transparent;
+  border-radius: 24px;
+  color: var(--Labels-Tertiary);
+  mix-blend-mode: var(--Labels-Tertiary-Blend);
+  transition: all 0.4s cubic-bezier(0.2, 0.01, 0, 1);
+}
+
+.TabBar-Tab:active {
+  transform: scale(0.9);
+}
+
+.TabBar-Tab-Icon {
+  width: 26px;
+  height: 26px;
+}
+
+.TabBar-Tab-Active .TabBar-Bar-Label {
+  color: var(--Colors-Blue);
+  mix-blend-mode: normal;
+}
+
+.TabBar-Tab-Active .TabBar-Tab-Icon {
+  color: var(--Colors-Blue);
+  mix-blend-mode: normal;
+}
+
+.TabBar-Tab-Icon svg {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.TabBar-Search {
+  border-radius: 50%;
+  width: 54px !important;
+  min-width: 54px;
+  height: 54px !important;
+  overflow: hidden;
+  color: var(--Colors-Blue);
+}
+
+.TabBar-Search svg {
+  min-width: 26px;
+  min-height: 26px;
+}

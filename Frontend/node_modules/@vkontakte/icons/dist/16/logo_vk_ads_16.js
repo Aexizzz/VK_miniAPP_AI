@@ -1,0 +1,20 @@
+import { jsx as _jsx } from "react/jsx-runtime";
+import * as React from "react";
+import { SvgIconRootV2 } from "@vkontakte/icons-sprite";
+export const Icon16LogoVkAds = (props)=>{
+    return /*#__PURE__*/ _jsx(SvgIconRootV2, {
+        viewBox: "0 0 16 16",
+        width: 16,
+        height: 16,
+        vkuiIconId: "logo_vk_ads_16",
+        vkuiAttrs: {
+            "fill": "currentColor"
+        },
+        vkuiProps: props,
+        children: /*#__PURE__*/ _jsx("path", {
+            fillRule: "evenodd",
+            d: "M1.5 7.74c0-2.942 0-4.412.914-5.326S4.798 1.5 7.74 1.5h.52c2.942 0 4.412 0 5.326.914s.914 2.384.914 5.326v.52c0 2.942 0 4.412-.914 5.326s-2.384.914-5.326.914h-.52c-2.942 0-4.412 0-5.326-.914S1.5 11.202 1.5 8.26zm11.27-3.515a.52.52 0 0 1 .333.886l-1.22 1.22a.65.65 0 0 1-.534.186l-.837-.068-1.039 1.039q.085.241.086.51a1.56 1.56 0 1 1-.985-1.45L9.593 5.53l-.101-.87a.65.65 0 0 1 .186-.535l1.22-1.22a.52.52 0 0 1 .886.333l.04.931zm-4.423-.37a4.16 4.16 0 1 0 3.797 3.783l-1.387-.117A2.798 2.798 0 1 1 8.509 5.25z",
+            clipRule: "evenodd"
+        })
+    });
+};

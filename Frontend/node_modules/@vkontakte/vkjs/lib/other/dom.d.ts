@@ -1,0 +1,3 @@
+export declare const canUseDOM: boolean;
+export declare const canUseEventListeners: boolean;
+export declare function onDOMLoaded(callback: (...args: any[]) => any): void;
