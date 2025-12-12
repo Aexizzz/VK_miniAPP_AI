@@ -35,7 +35,7 @@ type CardProps = {
 }
 
 type CardListItem = {
-    id: number | string
+    id: number
     title: string
     subtitle: string
     cover: string

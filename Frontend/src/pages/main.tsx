@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useVkUser } from '../hooks/vkUser';
-import { useSections } from '../hooks/useSections';
+import { getContentGrouped, getStatistics, GroupedContent } from '../utils/api';
 import Card from '../components/Card/Card';
 import defaultAvatarSvg from '../assets/default/avatar.svg';
 import {
@@ -16,6 +16,15 @@ import {
   Icon24UsersOutline,
 } from '@vkontakte/icons';
 
+type CardListItem = {
+  id: number;
+  title: string;
+  subtitle: string;
+  cover: string;
+  avatar?: string;
+  itemLink: string;
+};
+
 export default function MainPage() {
   const [visibleSections, setVisibleSections] = useState({
     music: true,
@@ -25,29 +34,81 @@ export default function MainPage() {
     games: true,
     friends: true,
   });
+  const [content, setContent] = useState<Record<string, CardListItem[]>>({});
+  const [statistics, setStatistics] = useState({
+    views: 0,
+    comments: 0,
+    followers: 0,
+    healthScore: 0,
+  });
+  const { userInfo } = useVkUser();
+  const userFirstName = userInfo?.first_name || 'Гость';
+  const userPhotoUrl = userInfo?.photo_200 || defaultAvatarSvg;
 
   const handleHideSection = (section: keyof typeof visibleSections) => {
     setVisibleSections((prev) => ({ ...prev, [section]: false }));
   };
 
-  const { userInfo } = useVkUser();
-  const userFirstName = userInfo?.first_name || 'Guest';
-  const userPhotoUrl = userInfo?.photo_200 || defaultAvatarSvg;
+  useEffect(() => {
+    if (!userInfo) return;
 
-  const { getSectionItems } = useSections();
-  const CardMusicItems = getSectionItems('music');
-  const CardVideoItems = getSectionItems('video');
-  const CardPodcastItems = getSectionItems('podcast');
-  const CardCommunityItems = getSectionItems('community');
-  const CardGamesItems = getSectionItems('games');
-  const CardFriendsItems = getSectionItems('friends');
+    let cancelled = false;
+    getContentGrouped()
+      .then((data: GroupedContent) => {
+        if (cancelled) return;
+        const toCardList = (items: any[]) =>
+          (items || []).map((item) => ({
+            id: item.id,
+            title: item.title,
+            subtitle: item.subtitle ?? '',
+            cover: item.coverUrl ?? '',
+            avatar: item.avatarUrl ?? '',
+            itemLink: item.itemLink ?? '#',
+          }));
+
+        setContent({
+          music: toCardList(data.music || []),
+          video: toCardList(data.video || []),
+          podcast: toCardList(data.podcast || []),
+          community: toCardList(data.community || []),
+          games: toCardList(data.game || data.games || data.GAME || []),
+          friends: toCardList(data.friend || data.friends || data.FRIEND || []),
+        });
+      })
+      .catch((err) => {
+        console.error('Failed to load content', err);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (!userInfo) return;
+    let cancelled = false;
+    getStatistics(userInfo.id)
+      .then((stats) => {
+        if (cancelled) return;
+        setStatistics(stats);
+      })
+      .catch((err) => {
+        console.error('Failed to load statistics', err);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userInfo]);
 
   return (
     <>
       <div className="Main-Screen-Back"></div>
       <div className="Content-Title">
         <img className="Content-Title-Avatar" src={userPhotoUrl} alt="" />
-        <h3 className="ttp-Title_2-emphaized Content-Title-Title">Welcome, {userFirstName}</h3>
+        <h3 className="ttp-Title_2-emphaized Content-Title-Title">
+          Привет, {userFirstName}
+        </h3>
       </div>
 
       <div className="Cards-Group">
@@ -55,8 +116,8 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Small"
-            title="Views"
-            subtitle="+321 new this week"
+            title="Просмотры"
+            subtitle={`${statistics.views} за период`}
             showIcon
             icon={<Icon24ViewOutline />}
             cardLink
@@ -66,8 +127,8 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Small"
-            title="Comments"
-            subtitle="+18 new this week"
+            title="Комментарии"
+            subtitle={`${statistics.comments} за период`}
             showIcon
             icon={<Icon24CommentOutline />}
             cardLink
@@ -79,23 +140,23 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Small"
-            title="New friends"
-            subtitle="+89 this month"
+            title="Подписчики"
+            subtitle={`+${statistics.followers} за период`}
             showIcon
             icon={<Icon24UserAddOutline />}
             cardLink
-            link="/friends"
+            link="/settings/statistic"
           />
 
           <Card
             type="Default"
             size="Small"
-            title="Health"
-            subtitle="Keep your streak"
+            title="Здоровье"
+            subtitle={`${statistics.healthScore} баллов`}
             showIcon
             icon={<Icon24HealthOutline />}
             cardLink
-            link="/settings"
+            link="/settings/statistic"
           />
         </div>
       </div>
@@ -105,19 +166,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Music"
-            subtitle="Fresh tracks for you"
+            title="Музыка"
+            subtitle="Подборка треков"
             showIcon
             icon={<Icon24LogoVkMusicOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open music"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/music"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('music')}
             showCardList
             cardListType="Rounded"
-            items={CardMusicItems}
+            items={content.music}
           />
         )}
 
@@ -125,19 +186,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Video"
-            subtitle="Popular picks"
+            title="Видео"
+            subtitle="Свежие ролики"
             showIcon
             icon={<Icon24LogoVkVideoOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open video"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/video"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('video')}
             showCardList
             cardListType="Rounded"
-            items={CardVideoItems}
+            items={content.video}
           />
         )}
 
@@ -145,19 +206,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Podcasts"
-            subtitle="Latest episodes"
+            title="Подкасты"
+            subtitle="Лучшие эпизоды"
             showIcon
             icon={<Icon24PodcastOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open podcasts"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/podcast"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('podcast')}
             showCardList
             cardListType="Rounded"
-            items={CardPodcastItems}
+            items={content.podcast}
           />
         )}
 
@@ -165,19 +226,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Communities"
-            subtitle="Stay in touch"
+            title="Сообщества"
+            subtitle="Что сейчас обсуждают"
             showIcon
             icon={<Icon24Users3Outline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open communities"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/community"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('community')}
             showCardList
             cardListType="Rounded"
-            items={CardCommunityItems}
+            items={content.community}
           />
         )}
 
@@ -185,19 +246,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Games"
-            subtitle="Play something new"
+            title="Игры"
+            subtitle="Для перерыва"
             showIcon
             icon={<Icon24GameOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open games"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/games"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('games')}
             showCardList
             cardListType="Rounded"
-            items={CardGamesItems}
+            items={content.games}
           />
         )}
 
@@ -205,19 +266,19 @@ export default function MainPage() {
           <Card
             type="Default"
             size="Large"
-            title="Friends"
-            subtitle="Suggestions for you"
+            title="Друзья"
+            subtitle="Кого добавить в ленту"
             showIcon
             icon={<Icon24UsersOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel="Open friends"
+            primaryButtonLabel="Открыть"
             primaryButtonLink="/friends"
-            secondaryButtonLabel="Hide"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('friends')}
             showCardList
             cardListType="Rounded"
-            items={CardFriendsItems}
+            items={content.friends}
           />
         )}
       </div>

@@ -1,65 +1,49 @@
-import { useEffect, useState } from 'react';
-import connect from '@vkontakte/vk-bridge';
-import { fetchProfile } from '../utils/api';
+import { useState, useEffect } from 'react'
+import connect from '@vkontakte/vk-bridge'
+import { syncUser } from '../utils/api'
 
 interface VkUser {
   id: number;
-  first_name: string;
-  last_name: string;
-  photo_200: string;
+  first_name: string
+  last_name: string
+  photo_200: string
 }
 
 interface UseVkUserResult {
-  userInfo: VkUser | null;
-  isLoading: boolean;
-  error: Error | null;
+  userInfo: VkUser | null
+  isLoading: boolean
+  error: Error | null
 }
 
-// Fetches profile from backend first, falls back to VK bridge if needed.
+// Пользовательский хук для получения данных пользователя ВК.
 export function useVkUser(): UseVkUserResult {
-  const [userInfo, setUserInfo] = useState<VkUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [userInfo, setUserInfo] = useState<VkUser | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    let cancelled = false;
-
-    const fetchUserInfo = async () => {
+    async function fetchUserInfo() {
       try {
-        const profile = await fetchProfile();
-        if (!cancelled) {
-          setUserInfo(profile);
-          setIsLoading(false);
-          return;
-        }
+        const userData = await connect.send('VKWebAppGetUserInfo', {}) as VkUser
+        setUserInfo(userData)
+        await syncUser({
+          vkUserId: userData.id,
+          firstName: userData.first_name,
+          lastName: userData.last_name,
+          avatarUrl: userData.photo_200,
+        })
+        setIsLoading(false)
       } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err : new Error(String(err)));
+        if (err instanceof Error) {
+            setError(err)
+        } else {
+            setError(new Error(String(err)))
         }
+        setIsLoading(false)
       }
-
-      try {
-        const userData = await connect.send('VKWebAppGetUserInfo', {}) as VkUser;
-        if (!cancelled) {
-          setUserInfo(userData);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err : new Error(String(err)));
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchUserInfo();
-
-    return () => {
-      cancelled = true;
-    };
+    }
+    fetchUserInfo()
   }, []);
 
-  return { userInfo, isLoading, error };
+  return { userInfo, isLoading, error }
 }

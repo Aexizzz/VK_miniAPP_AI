@@ -18,11 +18,10 @@ export default function RowTitle({
 
     const titleSize =
         type == "Default" ? "ttp-Footnote" : "ttp-Footnote-emphaized"
-    const coverSrc = cover || defaultCover
 
   return (
     <div className={`RowTitle RowTitle-${type}`}>
-        <img className="RowTitle-Cover Shadow-Soft" src={coverSrc} alt={title} onError={(e) => { e.currentTarget.src = defaultCover; }} />
+        <img className="RowTitle-Cover Shadow-Soft" src={cover} alt={title} onError={(e) => { e.currentTarget.src = defaultCover; }} />
         <div className="RowTitleContent">
             <p className="RowTitle-Subtitle ttp-Footnote">{subtitle}</p>
             <p className={`RowTitle-Title ${titleSize}`}>{title}</p>

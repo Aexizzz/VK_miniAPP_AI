@@ -1,79 +1,191 @@
-import { useVkUser } from '../hooks/vkUser';
-import { useSections } from '../hooks/useSections';
+import { useVkUser } from '../hooks/vkUser'; 
+// Components
 import ListControl from '../components/List/ListControls/ListControls';
 import ListItem from '../components/List/llistItem/ListItem';
 import RowTitle from '../components/rows/RowTitle/RowTitle';
 import Card from '../components/Card/Card';
-import defaultAvatarSvg from '../assets/default/avatar.svg';
+// Assets
+import defaultAvatarSvg from '../assets/default/avatar.svg'; 
 
 export default function FriendsPage() {
+  // Данные страницы ВК
   const { userInfo } = useVkUser();
-  const userFirstName = userInfo?.first_name || 'Guest';
+  // Имя пользователя
+  const userFirstName = userInfo?.first_name || 'Имя?';
+  // Фотография профиля
   const userPhotoUrl = userInfo?.photo_200 || defaultAvatarSvg;
-
-  const { getSectionItems } = useSections();
-  const friendItems = getSectionItems('friends');
-
-  const featured = friendItems.slice(0, 4);
-  const others = friendItems.slice(4);
-
   return (
     <>
       <div className="Content-Title">
-        <img className="Content-Title-Avatar" src={userPhotoUrl} alt="" />
-        <h3 className="ttp-Title_2-emphaized Content-Title-Title">Friends for you, {userFirstName}</h3>
+        <img className='Content-Title-Avatar' src={userPhotoUrl}  alt="" />
+        <h3 className='ttp-Title_2-emphaized Content-Title-Title'>Друзья для вас, {userFirstName}</h3>
       </div>
 
       <div className="Cards-Group">
         <div className="Cards-Row">
-          {featured.slice(0, 2).map((item) => (
-            <Card
-              key={item.id}
-              type="ListItem"
-              size="Small"
-              title={item.title}
-              subtitle={item.subtitle}
-              cardListType="Circle"
-              cover={item.cover}
-            />
-          ))}
+          <Card
+            type='ListItem'
+            size='Small'
+            title='Title'
+            subtitle='Subtitle'
+            cardListType='Circle'
+            cover=''
+          />
+
+          <Card
+            type='ListItem'
+            size='Small'
+            title='Title'
+            subtitle='Subtitle'
+            cardListType='Circle'
+            cover=''
+          />
         </div>
 
         <div className="Cards-Row">
-          {featured.slice(2, 4).map((item) => (
-            <Card
-              key={item.id}
-              type="ListItem"
-              size="Small"
-              title={item.title}
-              subtitle={item.subtitle}
-              cardListType="Circle"
-              cover={item.cover}
-            />
-          ))}
+          <Card
+            type='ListItem'
+            size='Small'
+            title='Title'
+            subtitle='Subtitle'
+            cardListType='Circle'
+            cover=''
+          />
+
+          <Card
+            type='ListItem'
+            size='Small'
+            title='Title'
+            subtitle='Subtitle'
+            cardListType='Circle'
+            cover=''
+          />
         </div>
       </div>
 
       <div className="HorList">
-        <ListControl />
-        <RowTitle type="Default" title="Suggested" />
+        <ListControl/>
+        <RowTitle
+          type='Default'
+          title='Может вы их знаете?'
+        />
         <div className="HorList-Scroll">
           <div className="HorList-Items">
-            {others.map((item) => (
-              <ListItem
-                key={item.id}
-                type="Circle"
-                size="Large"
-                title={item.title}
-                subtitle={item.subtitle}
-                avatar={item.avatar}
-                cover={item.cover}
-                coverLink={item.itemLink}
-              />
-            ))}
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="HorList">
+        <ListControl/>
+        <RowTitle
+          type='Plus'
+          title='Огурец Спит'
+          subtitle='Может он вас познакомит?'
+          cover=''
+        />
+        <div className="HorList-Scroll">
+          <div className="HorList-Items">
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
+
+            <ListItem
+              type='Circle'
+              size='Large'
+              title='Title'
+              subtitle='Subtitle'
+              avatar=''
+              cover=''
+              coverLink=''
+            />
           </div>
         </div>
       </div>
     </>
   );
-}
+};
