@@ -1,183 +1,187 @@
-import { useState } from 'react'; // <-- ОБЯЗАТЕЛЬНЫЙ ИМПОРТ
-import { useVkUser } from '../hooks/vkUser'; 
-// Components
+import { useState } from 'react';
+import { useVkUser } from '../hooks/vkUser';
 import Card from '../components/Card/Card';
-// Assets
-import defaultAvatarSvg from '../assets/default/avatar.svg'; 
-// Icons
+import defaultAvatarSvg from '../assets/default/avatar.svg';
 import {
-  Icon24ViewOutline,
-  Icon24CommentOutline,
-  Icon24UserAddOutline,
-  Icon24HealthOutline,
   Icon24LogoVkMusicOutline,
   Icon24LogoVkVideoOutline,
   Icon24PodcastOutline,
   Icon24Users3Outline,
   Icon24GameOutline,
-  Icon24UsersOutline
+  Icon24UsersOutline,
 } from '@vkontakte/icons';
 
-export default function MainPage() {
-  // Состояние для видимости секций (НОВОЕ)
+type CardListItem = {
+  id: number;
+  title: string;
+  subtitle: string;
+  cover: string;
+  avatar?: string;
+  itemLink: string;
+};
+
+export default function MusicPage() {
   const [visibleSections, setVisibleSections] = useState({
     music: true,
     video: true,
     podcast: true,
     community: true,
     games: true,
-    friends: true
+    friends: true,
   });
 
-  // Обработчик скрытия (НОВОЕ)
   const handleHideSection = (section: keyof typeof visibleSections) => {
-    setVisibleSections(prev => ({ ...prev, [section]: false }));
+    setVisibleSections((prev) => ({ ...prev, [section]: false }));
   };
 
-  // Данные страницы ВК
   const { userInfo } = useVkUser();
-  const userFirstName = userInfo?.first_name || 'Имя?';
+  const userFirstName = userInfo?.first_name || 'Гость';
   const userPhotoUrl = userInfo?.photo_200 || defaultAvatarSvg;
 
-  // Мапы данных (остаются без изменений)
-  const CardMusicItems = [ /* ... */ ];
-  const CardVideoItems = [ /* ... */ ];
-  const CardPodcastItems = [ /* ... */ ];
-  const CardCommunityItems = [ /* ... */ ];
-  const CardGamesItems = [ /* ... */ ];
-  const CardFriendsItems = [ /* ... */ ];
+  const placeholderItems = (prefix: string): CardListItem[] =>
+    Array.from({ length: 5 }).map((_, idx) => ({
+      id: idx,
+      title: `${prefix} ${idx}`,
+      subtitle: 'subtitle',
+      cover: '',
+      avatar: '',
+      itemLink: '#',
+    }));
+
+  const CardMusicItems = placeholderItems('Track');
+  const CardVideoItems = placeholderItems('Video');
+  const CardPodcastItems = placeholderItems('Podcast');
+  const CardCommunityItems = placeholderItems('Community');
+  const CardGamesItems = placeholderItems('Game');
+  const CardFriendsItems = placeholderItems('Friend');
 
   return (
     <>
       <div className="Main-Screen-Back"></div>
       <div className="Content-Title">
-        <img className='Content-Title-Avatar' src={userPhotoUrl} alt="" />
-        <h3 className='ttp-Title_2-emphaized Content-Title-Title'>Здравствуйте, {userFirstName}</h3>
-      </div>
-
-      <div className="Cards-Group">
-        {/* ... мелкие карточки остаются без изменений */}
+        <img className="Content-Title-Avatar" src={userPhotoUrl} alt="" />
+        <h3 className="ttp-Title_2-emphaized Content-Title-Title">
+          Привет, {userFirstName}
+        </h3>
       </div>
 
       <div className="Group">
-        {/* УСЛОВНЫЙ РЕНДЕРИНГ ДЛЯ КАЖДОЙ СЕКЦИИ */}
-        
         {visibleSections.music && (
           <Card
-            type='Default'
-            size='Large'
-            title='Музыка'
-            subtitle='Подборка по вашему настроению'
+            type="Default"
+            size="Large"
+            title="Музыка"
+            subtitle="Подборка треков"
             showIcon
-            icon={<Icon24LogoVkMusicOutline/>}
+            icon={<Icon24LogoVkMusicOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Слушать'
-            primaryButtonLink='/music'
-            secondaryButtonLabel='Не интересно'
-            onSecondaryClick={() => handleHideSection('music')} // <-- ПОДКЛЮЧЕНИЕ
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/music"
+            secondaryButtonLabel="Скрыть"
+            onSecondaryClick={() => handleHideSection('music')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardMusicItems}
           />
         )}
 
         {visibleSections.video && (
           <Card
-            type='Default'
-            size='Large'
-            title='Видео'
-            subtitle='Думаю, вам это понравится'
+            type="Default"
+            size="Large"
+            title="Видео"
+            subtitle="Свежие ролики"
             showIcon
-            icon={<Icon24LogoVkVideoOutline/>}
+            icon={<Icon24LogoVkVideoOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Смотреть'
-            primaryButtonLink='/video'
-            secondaryButtonLabel='Не интересно'
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/video"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('video')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardVideoItems}
           />
         )}
 
         {visibleSections.podcast && (
           <Card
-            type='Default'
-            size='Large'
-            title='Подкасты'
-            subtitle='Аудио-шоу по вашим темам'
+            type="Default"
+            size="Large"
+            title="Подкасты"
+            subtitle="Лучшие эпизоды"
             showIcon
-            icon={<Icon24PodcastOutline/>}
+            icon={<Icon24PodcastOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Слушать'
-            primaryButtonLink='/podcast'
-            secondaryButtonLabel='Не интересно'
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/podcast"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('podcast')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardPodcastItems}
           />
         )}
 
         {visibleSections.community && (
           <Card
-            type='Default'
-            size='Large'
-            title='Сообщества'
-            subtitle='Сообщества, которые вам могут понравиться'
+            type="Default"
+            size="Large"
+            title="Сообщества"
+            subtitle="Что сейчас обсуждают"
             showIcon
-            icon={<Icon24Users3Outline/>}
+            icon={<Icon24Users3Outline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Перейти'
-            primaryButtonLink='/community'
-            secondaryButtonLabel='Не интересно'
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/community"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('community')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardCommunityItems}
           />
         )}
 
         {visibleSections.games && (
           <Card
-            type='Default'
-            size='Large'
-            title='Игры'
-            subtitle='Попробуйте популярные мини-игры'
+            type="Default"
+            size="Large"
+            title="Игры"
+            subtitle="Для перерыва"
             showIcon
-            icon={<Icon24GameOutline/>}
+            icon={<Icon24GameOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Играть'
-            primaryButtonLink='/games'
-            secondaryButtonLabel='Не интересно'
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/games"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('games')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardGamesItems}
           />
         )}
 
         {visibleSections.friends && (
           <Card
-            type='Default'
-            size='Large'
-            title='Друзья'
-            subtitle='Совпадения по интересам'
+            type="Default"
+            size="Large"
+            title="Друзья"
+            subtitle="Кого добавить в ленту"
             showIcon
-            icon={<Icon24UsersOutline/>}
+            icon={<Icon24UsersOutline />}
             showButtons
             showSecondaryButton
-            primaryButtonLabel='Перейти'
-            primaryButtonLink='/friends'
-            secondaryButtonLabel='Не интересно'
+            primaryButtonLabel="Открыть"
+            primaryButtonLink="/friends"
+            secondaryButtonLabel="Скрыть"
             onSecondaryClick={() => handleHideSection('friends')}
             showCardList
-            cardListType='Rounded'
+            cardListType="Rounded"
             items={CardFriendsItems}
           />
         )}

@@ -6,13 +6,15 @@ export class SyncUserDto {
   @IsInt()
   vkUserId!: number;
 
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  firstName!: string;
+  firstName?: string;
 
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  lastName!: string;
+  lastName?: string;
 
   @IsOptional()
   @IsString()

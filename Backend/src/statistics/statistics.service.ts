@@ -7,13 +7,20 @@ export class StatisticsService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async getUserWithStats(vkUserId: number) {
-    const user = await this.prisma.user.findUnique({
+    let user = await this.prisma.user.findUnique({
       where: { vkUserId },
       include: { statistics: true },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with vkUserId ${vkUserId} not found`);
+      user = await this.prisma.user.create({
+        data: {
+          vkUserId,
+          firstName: 'User',
+          lastName: `${vkUserId}`,
+        },
+        include: { statistics: true },
+      });
     }
 
     if (!user.statistics) {

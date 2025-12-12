@@ -10,15 +10,15 @@ export class UsersService {
     const user = await this.prisma.user.upsert({
       where: { vkUserId: dto.vkUserId },
       update: {
-        firstName: dto.firstName,
-        lastName: dto.lastName,
+        firstName: dto.firstName ?? 'User',
+        lastName: dto.lastName ?? `${dto.vkUserId}`,
         avatarUrl: dto.avatarUrl,
         theme: undefined,
       },
       create: {
         vkUserId: dto.vkUserId,
-        firstName: dto.firstName,
-        lastName: dto.lastName,
+        firstName: dto.firstName ?? 'User',
+        lastName: dto.lastName ?? `${dto.vkUserId}`,
         avatarUrl: dto.avatarUrl,
       },
     });
