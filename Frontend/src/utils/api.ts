@@ -74,8 +74,9 @@ export async function getContentGrouped(
 ): Promise<GroupedContent> {
   const query = new URLSearchParams();
   if (vkUserId) query.set('vkUserId', vkUserId.toString());
-  if (vkAccessToken && vkAccessToken !== 'undefined' && vkAccessToken !== 'null') {
-    query.set('vkAccessToken', vkAccessToken);
+  const token = vkAccessToken || localStorage.getItem('vk_access_token') || undefined;
+  if (token && token !== 'undefined' && token !== 'null') {
+    query.set('vkAccessToken', token);
   }
   const suffix = query.toString() ? `?${query.toString()}` : '';
   return request<GroupedContent>(`/content${suffix}`);
@@ -90,8 +91,9 @@ export async function getContentByType(
   if (vkUserId) {
     query.set('vkUserId', vkUserId.toString());
   }
-  if (vkAccessToken) {
-    query.set('vkAccessToken', vkAccessToken);
+  const token = vkAccessToken || localStorage.getItem('vk_access_token') || undefined;
+  if (token) {
+    query.set('vkAccessToken', token);
   }
   return request<ApiContentItem[]>(`/content?${query.toString()}`);
 }
