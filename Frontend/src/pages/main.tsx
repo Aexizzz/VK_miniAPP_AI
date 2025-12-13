@@ -121,7 +121,7 @@ export default function MainPage() {
       });
 
     // 4) слушаем событие токена
-    const unsubscribe = connect.subscribe((event) => {
+    const handler = (event: any) => {
       if (event.detail?.type === 'VKWebAppAccessTokenReceived') {
         const token = (event.detail.data as { access_token?: string })?.access_token;
         if (token) {
@@ -129,9 +129,10 @@ export default function MainPage() {
           localStorage.setItem('vk_access_token', token);
         }
       }
-    });
+    };
+    connect.subscribe(handler);
     return () => {
-      unsubscribe();
+      connect.unsubscribe(handler);
     };
   }, []);
 
