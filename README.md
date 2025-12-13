@@ -26,12 +26,13 @@ npm run start:dev               # http://localhost:3000
 - `GET/PATCH /users/:vkUserId/statistics` — цифры для карточек статистики.
 
 Переменные окружения: `DATABASE_URL` (Prisma, по умолчанию SQLite-файл) и `PORT` (по умолчанию 3000).
+Для загрузки статистики из VK: `VK_SERVICE_TOKEN` (обязателен) и `VK_API_VERSION` (опционально, 5.199 по умолчанию).
 
 ## Запуск фронтенда
 ```bash
 cd Frontend
 npm install
-# echo "VITE_API_BASE_URL=http://localhost:3000" > .env.local   # URL бэка
+# echo "VITE_API_BASE_URL=https://24ritm.ru" > .env.local   # URL бэка
 npm run dev -- --host --port 5173
 ```
 

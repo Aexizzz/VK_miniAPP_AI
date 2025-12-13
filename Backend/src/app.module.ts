@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { ContentModule } from './content/content.module';
 import { SettingsModule } from './settings/settings.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { VkModule } from './vk/vk.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     ContentModule,
     SettingsModule,
     StatisticsModule,
+    VkModule,
   ],
 })
 export class AppModule {}
