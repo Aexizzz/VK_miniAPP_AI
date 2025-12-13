@@ -53,7 +53,7 @@ export default function MainPage() {
     if (!userInfo) return;
 
     let cancelled = false;
-    getContentGrouped()
+    getContentGrouped(userInfo.id)
       .then((data: GroupedContent) => {
         if (cancelled) return;
         const toCardList = (items: any[]) =>

@@ -35,6 +35,17 @@ model Statistic {
   updatedAt   DateTime @updatedAt
 }
 
+model StatisticSnapshot {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  views       Int      @default(0)
+  comments    Int      @default(0)
+  followers   Int      @default(0)
+  healthScore Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
 model ContentItem {
   id        Int      @id @default(autoincrement())
   type      String

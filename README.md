@@ -20,7 +20,7 @@ npm run start:dev               # http://localhost:3000
 ### Основные эндпоинты
 - `POST /users/sync` — апсерт профиля из VK Bridge.
 - `GET /users/:vkUserId` — пользователь со статистикой.
-- `GET /content?type=music` — список по типу; без `type` вернет сгруппированные списки для всех секций.
+- `GET /content?type=music` — список по типу; без `type` вернет сгруппированные списки для всех секций; с `vkUserId` отдаст персонализированные подборки (shuffle по пользователю + порядок табов).
 - `POST /content` — создание элемента контента (админ/сидинг).
 - `GET/PATCH /users/:vkUserId/settings` — тема, порядок табов, уведомления и рекомендации.
 - `GET/PATCH /users/:vkUserId/statistics` — цифры для карточек статистики.

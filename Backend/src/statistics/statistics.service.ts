@@ -46,27 +46,71 @@ export class StatisticsService {
       return null;
     });
 
-    if (vkUser) {
-      const computedFollowers = vkUser.followers_count ?? user.statistics?.followers ?? 0;
-      const computedViews =
-        (vkUser.counters?.videos ?? 0) + (vkUser.counters?.photos ?? 0);
-      const computedComments = vkUser.counters?.friends ?? 0;
-      const computedHealth = computedFollowers + computedViews + computedComments;
+    const computedFollowers = vkUser?.followers_count ?? user.statistics?.followers ?? 0;
+    const computedViews =
+      (vkUser?.counters?.videos ?? 0) + (vkUser?.counters?.photos ?? 0);
+    const computedComments = vkUser?.counters?.friends ?? 0;
+    const computedHealth = computedFollowers + computedViews + computedComments;
 
-      const updated = await this.prisma.statistic.update({
-        where: { userId: user.id },
+    const currentStats = await this.prisma.statistic.update({
+      where: { userId: user.id },
+      data: {
+        followers: computedFollowers,
+        views: computedViews,
+        comments: computedComments,
+        healthScore: computedHealth,
+      },
+    });
+
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const snapshotForWeek = await this.prisma.statisticSnapshot.findFirst({
+      where: {
+        userId: user.id,
+        createdAt: { lte: weekAgo },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const fallbackSnapshot = await this.prisma.statisticSnapshot.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    const base = snapshotForWeek ?? fallbackSnapshot;
+
+    const weekly = {
+      followers: computedFollowers - (base?.followers ?? 0),
+      views: computedViews - (base?.views ?? 0),
+      comments: computedComments - (base?.comments ?? 0),
+      healthScore: computedHealth - (base?.healthScore ?? 0),
+    };
+
+    const latestSnapshot = await this.prisma.statisticSnapshot.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const shouldSnapshot =
+      !latestSnapshot ||
+      Date.now() - latestSnapshot.createdAt.getTime() > 24 * 60 * 60 * 1000;
+
+    if (shouldSnapshot) {
+      await this.prisma.statisticSnapshot.create({
         data: {
+          userId: user.id,
           followers: computedFollowers,
           views: computedViews,
           comments: computedComments,
           healthScore: computedHealth,
         },
       });
-
-      return updated;
     }
 
-    return user.statistics;
+    return {
+      ...currentStats,
+      ...weekly,
+      period: 'last_7_days',
+    };
   }
 
   async updateStatistics(vkUserId: number, dto: UpdateStatisticsDto) {

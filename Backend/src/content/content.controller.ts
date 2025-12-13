@@ -7,10 +7,13 @@ export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @Get()
-  list(@Query('type') type?: string) {
+  list(@Query('type') type?: string, @Query('vkUserId') vkUserId?: string) {
     if (type) {
       const contentType = this.contentService.ensureValidType(type);
       return this.contentService.listByType(contentType);
+    }
+    if (vkUserId) {
+      return this.contentService.listPersonalized(Number(vkUserId));
     }
     return this.contentService.listGrouped();
   }

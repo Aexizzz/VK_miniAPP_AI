@@ -68,14 +68,20 @@ export async function syncUser(payload: {
   });
 }
 
-export async function getContentGrouped(): Promise<GroupedContent> {
-  return request<GroupedContent>('/content');
+export async function getContentGrouped(vkUserId?: number): Promise<GroupedContent> {
+  const query = vkUserId ? `?vkUserId=${vkUserId}` : '';
+  return request<GroupedContent>(`/content${query}`);
 }
 
 export async function getContentByType(
   type: string,
+  vkUserId?: number,
 ): Promise<ApiContentItem[]> {
-  return request<ApiContentItem[]>(`/content?type=${type}`);
+  const query = new URLSearchParams({ type });
+  if (vkUserId) {
+    query.set('vkUserId', vkUserId.toString());
+  }
+  return request<ApiContentItem[]>(`/content?${query.toString()}`);
 }
 
 export async function getStatistics(
