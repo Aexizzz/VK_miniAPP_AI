@@ -52,24 +52,58 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    // 1) попробовать достать токен из URL (если VK вернул web_token)
+    const appId =
+      (import.meta.env.VITE_VK_APP_ID as string | undefined) ||
+      (import.meta.env.VITE_VK_CLIENT_ID as string | undefined);
+
+    // 0) читаем web_token из localStorage (VK Mini Apps)
+    const possibleKeys = new Set<string>();
+    if (appId) possibleKeys.add(`${appId}:web_token:login:auth`);
+    const envClientId = import.meta.env.VITE_VK_CLIENT_ID as string | undefined;
+    if (envClientId) possibleKeys.add(`${envClientId}:web_token:login:auth`);
+    Object.keys(localStorage).forEach((k) => {
+      if (k.endsWith(':web_token:login:auth')) possibleKeys.add(k);
+    });
+    for (const key of possibleKeys) {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      try {
+        const parsed = JSON.parse(raw);
+        const tokenCandidate = parsed?.access_token || parsed?.data?.access_token;
+        if (tokenCandidate) {
+          setVkAccessToken(tokenCandidate);
+          localStorage.setItem('vk_access_token', tokenCandidate);
+          return;
+        }
+      } catch {
+        const tokenCandidate = raw;
+        if (tokenCandidate) {
+          setVkAccessToken(tokenCandidate);
+          localStorage.setItem('vk_access_token', tokenCandidate);
+          return;
+        }
+      }
+    }
+
+    // 1) токен в URL (hash/query)
     const urlToken =
       new URLSearchParams(window.location.hash.replace('#', '')).get('access_token') ||
       new URLSearchParams(window.location.search).get('access_token');
     if (urlToken) {
       setVkAccessToken(urlToken);
+      localStorage.setItem('vk_access_token', urlToken);
       return;
     }
 
-    // 2) fallback из env (для dev)
+    // 2) токен из env (dev)
     const envToken = import.meta.env.VITE_VK_ACCESS_TOKEN as string | undefined;
     if (envToken) {
       setVkAccessToken(envToken);
+      localStorage.setItem('vk_access_token', envToken);
       return;
     }
 
-    // 3) запросить токен через Bridge
-    const appId = import.meta.env.VITE_VK_APP_ID;
+    // 3) запросить через Bridge
     if (!appId) return;
     connect
       .send('VKWebAppGetAuthToken', {
@@ -77,11 +111,28 @@ export default function MainPage() {
         scope: 'friends,groups,video,audio',
       })
       .then((res: { access_token?: string }) => {
-        if (res?.access_token) setVkAccessToken(res.access_token);
+        if (res?.access_token) {
+          setVkAccessToken(res.access_token);
+          localStorage.setItem('vk_access_token', res.access_token);
+        }
       })
       .catch((err) => {
         console.warn('VKWebAppGetAuthToken failed', err);
       });
+
+    // 4) слушаем событие токена
+    const unsub = connect.subscribe((event) => {
+      if (event.detail?.type === 'VKWebAppAccessTokenReceived') {
+        const token = (event.detail.data as { access_token?: string })?.access_token;
+        if (token) {
+          setVkAccessToken(token);
+          localStorage.setItem('vk_access_token', token);
+        }
+      }
+    });
+    return () => {
+      unsub();
+    };
   }, []);
 
   useEffect(() => {
