@@ -44,7 +44,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Music+0',
         avatarUrl: 'https://placehold.co/100x100?text=M0',
-        itemLink: 'https://24ritm.ru/music/0',
+        itemLink: 'https://vk.com/music',
         order: 0,
       },
       {
@@ -53,7 +53,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Music+1',
         avatarUrl: 'https://placehold.co/100x100?text=M1',
-        itemLink: 'https://24ritm.ru/music/1',
+        itemLink: 'https://vk.com/music',
         order: 1,
       },
       {
@@ -62,7 +62,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Music+2',
         avatarUrl: 'https://placehold.co/100x100?text=M2',
-        itemLink: 'https://24ritm.ru/music/2',
+        itemLink: 'https://vk.com/music',
         order: 2,
       },
       {
@@ -71,7 +71,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Music+3',
         avatarUrl: 'https://placehold.co/100x100?text=M3',
-        itemLink: 'https://24ritm.ru/music/3',
+        itemLink: 'https://vk.com/music',
         order: 3,
       },
       {
@@ -80,7 +80,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Music+4',
         avatarUrl: 'https://placehold.co/100x100?text=M4',
-        itemLink: 'https://24ritm.ru/music/4',
+        itemLink: 'https://vk.com/music',
         order: 4,
       },
       // Video
@@ -90,7 +90,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Video+0',
         avatarUrl: 'https://placehold.co/100x100?text=V0',
-        itemLink: 'https://24ritm.ru/video/0',
+        itemLink: 'https://vk.com/video',
         order: 0,
       },
       {
@@ -99,7 +99,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Video+1',
         avatarUrl: 'https://placehold.co/100x100?text=V1',
-        itemLink: 'https://24ritm.ru/video/1',
+        itemLink: 'https://vk.com/video',
         order: 1,
       },
       {
@@ -108,7 +108,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Video+2',
         avatarUrl: 'https://placehold.co/100x100?text=V2',
-        itemLink: 'https://24ritm.ru/video/2',
+        itemLink: 'https://vk.com/video',
         order: 2,
       },
       {
@@ -117,7 +117,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Video+3',
         avatarUrl: 'https://placehold.co/100x100?text=V3',
-        itemLink: 'https://24ritm.ru/video/3',
+        itemLink: 'https://vk.com/video',
         order: 3,
       },
       {
@@ -126,7 +126,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Video+4',
         avatarUrl: 'https://placehold.co/100x100?text=V4',
-        itemLink: 'https://24ritm.ru/video/4',
+        itemLink: 'https://vk.com/video',
         order: 4,
       },
       // Podcasts
@@ -136,7 +136,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Podcast+0',
         avatarUrl: 'https://placehold.co/100x100?text=P0',
-        itemLink: 'https://24ritm.ru/podcast/0',
+        itemLink: 'https://vk.com/podcasts',
         order: 0,
       },
       {
@@ -145,7 +145,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Podcast+1',
         avatarUrl: 'https://placehold.co/100x100?text=P1',
-        itemLink: 'https://24ritm.ru/podcast/1',
+        itemLink: 'https://vk.com/podcasts',
         order: 1,
       },
       {
@@ -154,7 +154,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Podcast+2',
         avatarUrl: 'https://placehold.co/100x100?text=P2',
-        itemLink: 'https://24ritm.ru/podcast/2',
+        itemLink: 'https://vk.com/podcasts',
         order: 2,
       },
       {
@@ -163,7 +163,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Podcast+3',
         avatarUrl: 'https://placehold.co/100x100?text=P3',
-        itemLink: 'https://24ritm.ru/podcast/3',
+        itemLink: 'https://vk.com/podcasts',
         order: 3,
       },
       {
@@ -172,7 +172,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Podcast+4',
         avatarUrl: 'https://placehold.co/100x100?text=P4',
-        itemLink: 'https://24ritm.ru/podcast/4',
+        itemLink: 'https://vk.com/podcasts',
         order: 4,
       },
       // Communities
@@ -228,7 +228,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Game+0',
         avatarUrl: 'https://placehold.co/100x100?text=G0',
-        itemLink: 'https://24ritm.ru/games/0',
+        itemLink: 'https://vk.com/games',
         order: 0,
       },
       {
@@ -237,7 +237,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Game+1',
         avatarUrl: 'https://placehold.co/100x100?text=G1',
-        itemLink: 'https://24ritm.ru/games/1',
+        itemLink: 'https://vk.com/games',
         order: 1,
       },
       {
@@ -246,7 +246,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Game+2',
         avatarUrl: 'https://placehold.co/100x100?text=G2',
-        itemLink: 'https://24ritm.ru/games/2',
+        itemLink: 'https://vk.com/games',
         order: 2,
       },
       {
@@ -255,7 +255,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Game+3',
         avatarUrl: 'https://placehold.co/100x100?text=G3',
-        itemLink: 'https://24ritm.ru/games/3',
+        itemLink: 'https://vk.com/games',
         order: 3,
       },
       {
@@ -264,7 +264,7 @@ async function main() {
         subtitle: 'subtitle',
         coverUrl: 'https://placehold.co/200x200?text=Game+4',
         avatarUrl: 'https://placehold.co/100x100?text=G4',
-        itemLink: 'https://24ritm.ru/games/4',
+        itemLink: 'https://vk.com/games',
         order: 4,
       },
       // Friends
