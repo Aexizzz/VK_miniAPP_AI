@@ -31,6 +31,8 @@ function resolveToken(candidate?: string) {
 
   // ищем web_token от VK Bridge
   const tokens: string[] = [];
+  const directWeb = localStorage.getItem('web_token:login:auth');
+  if (directWeb) tokens.push(directWeb);
   Object.keys(localStorage).forEach((key) => {
     if (key.endsWith(':web_token:login:auth')) {
       const raw = localStorage.getItem(key);
