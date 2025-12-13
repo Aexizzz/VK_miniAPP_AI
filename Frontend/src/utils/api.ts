@@ -24,6 +24,31 @@ async function request<T>(
   return res.json() as Promise<T>;
 }
 
+function resolveToken(candidate?: string) {
+  if (candidate && candidate !== 'undefined' && candidate !== 'null') return candidate;
+  const direct = localStorage.getItem('vk_access_token');
+  if (direct && direct !== 'undefined' && direct !== 'null') return direct;
+
+  // ищем web_token от VK Bridge
+  const tokens: string[] = [];
+  Object.keys(localStorage).forEach((key) => {
+    if (key.endsWith(':web_token:login:auth')) {
+      const raw = localStorage.getItem(key);
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        const tok = parsed?.access_token || parsed?.data?.access_token;
+        if (tok) tokens.push(tok);
+      } catch {
+        tokens.push(raw);
+      }
+    }
+  });
+  return tokens.find(
+    (t) => t && t !== 'undefined' && t !== 'null',
+  );
+}
+
 export type ApiStatistics = {
   views: number;
   comments: number;
@@ -74,8 +99,8 @@ export async function getContentGrouped(
 ): Promise<GroupedContent> {
   const query = new URLSearchParams();
   if (vkUserId) query.set('vkUserId', vkUserId.toString());
-  const token = vkAccessToken || localStorage.getItem('vk_access_token') || undefined;
-  if (token && token !== 'undefined' && token !== 'null') {
+  const token = resolveToken(vkAccessToken);
+  if (token) {
     query.set('vkAccessToken', token);
   }
   const suffix = query.toString() ? `?${query.toString()}` : '';
@@ -91,7 +116,7 @@ export async function getContentByType(
   if (vkUserId) {
     query.set('vkUserId', vkUserId.toString());
   }
-  const token = vkAccessToken || localStorage.getItem('vk_access_token') || undefined;
+  const token = resolveToken(vkAccessToken);
   if (token) {
     query.set('vkAccessToken', token);
   }
