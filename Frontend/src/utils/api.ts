@@ -68,18 +68,28 @@ export async function syncUser(payload: {
   });
 }
 
-export async function getContentGrouped(vkUserId?: number): Promise<GroupedContent> {
-  const query = vkUserId ? `?vkUserId=${vkUserId}` : '';
-  return request<GroupedContent>(`/content${query}`);
+export async function getContentGrouped(
+  vkUserId?: number,
+  vkAccessToken?: string,
+): Promise<GroupedContent> {
+  const query = new URLSearchParams();
+  if (vkUserId) query.set('vkUserId', vkUserId.toString());
+  if (vkAccessToken) query.set('vkAccessToken', vkAccessToken);
+  const suffix = query.toString() ? `?${query.toString()}` : '';
+  return request<GroupedContent>(`/content${suffix}`);
 }
 
 export async function getContentByType(
   type: string,
   vkUserId?: number,
+  vkAccessToken?: string,
 ): Promise<ApiContentItem[]> {
   const query = new URLSearchParams({ type });
   if (vkUserId) {
     query.set('vkUserId', vkUserId.toString());
+  }
+  if (vkAccessToken) {
+    query.set('vkAccessToken', vkAccessToken);
   }
   return request<ApiContentItem[]>(`/content?${query.toString()}`);
 }

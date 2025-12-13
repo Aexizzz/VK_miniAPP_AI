@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import connect from '@vkontakte/vk-bridge';
 import { useVkUser } from '../hooks/vkUser';
 import { getContentGrouped, getStatistics, GroupedContent } from '../utils/api';
 import Card from '../components/Card/Card';
@@ -41,6 +42,7 @@ export default function MainPage() {
     followers: 0,
     healthScore: 0,
   });
+  const [vkAccessToken, setVkAccessToken] = useState<string | undefined>();
   const { userInfo } = useVkUser();
   const userFirstName = userInfo?.first_name || 'Гость';
   const userPhotoUrl = userInfo?.photo_200 || defaultAvatarSvg;
@@ -50,10 +52,26 @@ export default function MainPage() {
   };
 
   useEffect(() => {
+    const appId = import.meta.env.VITE_VK_APP_ID;
+    if (!appId) return;
+    connect
+      .send('VKWebAppGetAuthToken', {
+        app_id: Number(appId),
+        scope: 'friends,groups,video,audio',
+      })
+      .then((res: { access_token?: string }) => {
+        if (res?.access_token) setVkAccessToken(res.access_token);
+      })
+      .catch((err) => {
+        console.warn('VKWebAppGetAuthToken failed', err);
+      });
+  }, []);
+
+  useEffect(() => {
     if (!userInfo) return;
 
     let cancelled = false;
-    getContentGrouped(userInfo.id)
+    getContentGrouped(userInfo.id, vkAccessToken)
       .then((data: GroupedContent) => {
         if (cancelled) return;
         const toCardList = (items: any[]) =>
@@ -82,7 +100,7 @@ export default function MainPage() {
     return () => {
       cancelled = true;
     };
-  }, [userInfo]);
+  }, [userInfo, vkAccessToken]);
 
   useEffect(() => {
     if (!userInfo) return;

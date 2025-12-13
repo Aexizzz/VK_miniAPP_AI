@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CONTENT_TYPES, ContentType, CreateContentDto } from './dto/create-content.dto';
+import { VkService } from '../vk/vk.service';
 
 @Injectable()
 export class ContentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly vkService: VkService,
+  ) {}
 
   async create(dto: CreateContentDto) {
     return this.prisma.contentItem.create({ data: dto });
@@ -26,6 +30,42 @@ export class ContentService {
       acc[type.toLowerCase()] = items.filter((item) => item.type === type);
       return acc;
     }, {});
+  }
+
+  async listFromVk(vkUserId: number, vkAccessToken: string) {
+    const [audio, video, friends] = await Promise.all([
+      this.vkService.fetchAudioRecommendations(vkAccessToken),
+      this.vkService.fetchVideoRecommendations(vkAccessToken),
+      this.vkService.fetchFriends(vkAccessToken),
+    ]);
+
+    const toCardList = (items: any[], type: string) =>
+      (items || []).map((item, idx) => ({
+        id: item.id || idx,
+        type,
+        title: item.title || item.artist || `${type} ${idx}`,
+        subtitle: item.artist || item.description || '',
+        coverUrl: item.photo_200 || '',
+        avatarUrl: item.photo_200 || '',
+        itemLink:
+          type === 'MUSIC'
+            ? `https://vk.com/audio${item.owner_id}_${item.id}`
+            : type === 'VIDEO'
+              ? `https://vk.com/video${item.owner_id}_${item.id}`
+              : item.domain
+                ? `https://vk.com/${item.domain}`
+                : `https://vk.com/id${item.id}`,
+        order: idx,
+      }));
+
+    return {
+      music: toCardList(audio, 'MUSIC'),
+      video: toCardList(video, 'VIDEO'),
+      podcast: [],
+      community: [],
+      games: [],
+      friends: toCardList(friends, 'FRIEND'),
+    };
   }
 
   private seededShuffle<T>(array: T[], seed: number): T[] {

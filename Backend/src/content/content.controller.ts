@@ -7,10 +7,17 @@ export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @Get()
-  list(@Query('type') type?: string, @Query('vkUserId') vkUserId?: string) {
+  list(
+    @Query('type') type?: string,
+    @Query('vkUserId') vkUserId?: string,
+    @Query('vkAccessToken') vkAccessToken?: string,
+  ) {
     if (type) {
       const contentType = this.contentService.ensureValidType(type);
       return this.contentService.listByType(contentType);
+    }
+    if (vkUserId && vkAccessToken) {
+      return this.contentService.listFromVk(Number(vkUserId), vkAccessToken);
     }
     if (vkUserId) {
       return this.contentService.listPersonalized(Number(vkUserId));
