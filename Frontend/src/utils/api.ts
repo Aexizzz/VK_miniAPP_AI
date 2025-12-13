@@ -74,7 +74,9 @@ export async function getContentGrouped(
 ): Promise<GroupedContent> {
   const query = new URLSearchParams();
   if (vkUserId) query.set('vkUserId', vkUserId.toString());
-  if (vkAccessToken) query.set('vkAccessToken', vkAccessToken);
+  if (vkAccessToken && vkAccessToken !== 'undefined' && vkAccessToken !== 'null') {
+    query.set('vkAccessToken', vkAccessToken);
+  }
   const suffix = query.toString() ? `?${query.toString()}` : '';
   return request<GroupedContent>(`/content${suffix}`);
 }

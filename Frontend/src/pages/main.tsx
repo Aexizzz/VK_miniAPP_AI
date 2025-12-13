@@ -52,6 +52,23 @@ export default function MainPage() {
   };
 
   useEffect(() => {
+    // 1) попробовать достать токен из URL (если VK вернул web_token)
+    const urlToken =
+      new URLSearchParams(window.location.hash.replace('#', '')).get('access_token') ||
+      new URLSearchParams(window.location.search).get('access_token');
+    if (urlToken) {
+      setVkAccessToken(urlToken);
+      return;
+    }
+
+    // 2) fallback из env (для dev)
+    const envToken = import.meta.env.VITE_VK_ACCESS_TOKEN as string | undefined;
+    if (envToken) {
+      setVkAccessToken(envToken);
+      return;
+    }
+
+    // 3) запросить токен через Bridge
     const appId = import.meta.env.VITE_VK_APP_ID;
     if (!appId) return;
     connect
