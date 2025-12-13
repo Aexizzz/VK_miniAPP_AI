@@ -1,12 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateStatisticsDto } from './dto/update-statistics.dto';
+import { Statistic, User } from '@prisma/client';
 
 @Injectable()
 export class StatisticsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private async getUserWithStats(vkUserId: number) {
+  private async getUserWithStats(
+    vkUserId: number,
+  ): Promise<User & { statistics: Statistic | null }> {
     let user = await this.prisma.user.findUnique({
       where: { vkUserId },
       include: { statistics: true },

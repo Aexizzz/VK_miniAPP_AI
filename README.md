@@ -39,3 +39,4 @@ npm run dev -- --host --port 5173
 - Backend живет в `Backend/`, сборка в `Backend/dist/` (игнорируется).
 - Prisma: `Backend/prisma/schema.prisma`, сиды — `Backend/prisma/seed.ts`.
 - Включен CORS в Nest — удобно для vk-tunnel при разработке.
+ls -l node_modules/.bin/vite. Если нет x, то chmod +x node_modules/.bin/vite.
