@@ -121,7 +121,7 @@ export default function MainPage() {
       });
 
     // 4) слушаем событие токена
-    const unsub = connect.subscribe((event) => {
+    const unsubscribe = connect.subscribe((event) => {
       if (event.detail?.type === 'VKWebAppAccessTokenReceived') {
         const token = (event.detail.data as { access_token?: string })?.access_token;
         if (token) {
@@ -131,7 +131,7 @@ export default function MainPage() {
       }
     });
     return () => {
-      unsub();
+      unsubscribe();
     };
   }, []);
 
